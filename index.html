@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Afrika Idag</title>
+<meta name="theme-color" content="#14213D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Afrika Idag">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAFAF7; --surface:#FFFFFF; --ink:#14213D; --muted:#5B6478;
+  --gold:#F2A900; --green:#1E7F4F; --sky:#3A86C8; --line:#E3E5EA; --warn:#B4531A;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#10182C; --surface:#18233D; --ink:#EEF1F7; --muted:#A3ACBF;
+    --gold:#FFC23D; --green:#4CC38A; --sky:#6FB0EC; --line:#2A3656; --warn:#F0A060;
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.5;
+  -webkit-tap-highlight-color:transparent}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 48px}
+header.top{display:flex;align-items:center;justify-content:space-between;padding:14px 0 6px}
+.logo{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:20px;letter-spacing:-.01em}
+.logo span{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--gold);margin-left:4px}
+.icon-btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;
+  padding:6px 14px;font:inherit;font-size:15px;cursor:pointer}
+.status{font-size:14px;color:var(--warn);margin:4px 0 0}
+.search{width:100%;margin:10px 0 8px;padding:11px 14px;border-radius:12px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink);font:inherit}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 12px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--ink);
+  border-radius:999px;padding:6px 12px;font:inherit;font-size:15px;cursor:pointer;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.hero{padding:18px 0 20px;border-bottom:1px solid var(--line)}
+.flag{font-size:44px;line-height:1}
+.hero h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;
+  font-size:clamp(40px,11vw,76px);line-height:.95;letter-spacing:-.03em;margin:8px 0 6px;word-break:break-word}
+.hero .sub{color:var(--muted);margin:0}
+.glance{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.glance div{background:var(--surface);border-radius:14px;padding:12px 14px;border-left:4px solid var(--sky)}
+.glance div+div{border-left-color:var(--gold)}
+.glance b{display:block;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:24px;font-weight:800}
+.glance small{color:var(--muted);font-size:14px}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);
+  display:flex;gap:4px;overflow-x:auto;padding:10px 0;border-bottom:1px solid var(--line);scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;background:none;border:0;color:var(--muted);font:inherit;font-weight:600;
+  padding:8px 14px;border-radius:10px;cursor:pointer}
+.tab[aria-selected="true"]{color:var(--ink);background:var(--surface);box-shadow:inset 0 -3px 0 var(--gold)}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.panel{padding-top:6px}
+.story{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);color:inherit;text-decoration:none}
+.story .txt{flex:1;min-width:0}
+.story h3{margin:0 0 4px;font-size:18px;line-height:1.3}
+.story p{margin:0;color:var(--muted);font-size:15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.story img{width:84px;height:84px;object-fit:cover;border-radius:10px;flex:0 0 auto;background:var(--line)}
+.meta{font-size:13px;color:var(--muted);margin-top:6px}
+.meta b{color:var(--green);font-weight:600;margin-right:8px}
+.now{display:flex;align-items:center;gap:16px;margin:10px 0 16px}
+.now .big{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:64px;line-height:1}
+.days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.day{background:var(--surface);border-radius:14px;padding:12px 6px;text-align:center}
+.day .ic{font-size:28px}
+.day b{display:block;font-size:18px}
+.day small{color:var(--muted)}
+.conv{background:var(--surface);border-radius:16px;padding:16px;margin-top:10px}
+.conv label{display:block;font-size:14px;color:var(--muted);margin-bottom:4px}
+.row{display:flex;gap:8px;margin-bottom:14px}
+.row input,.row select{flex:1;min-width:0;padding:11px 12px;border-radius:10px;border:1px solid var(--line);
+  background:var(--paper);color:var(--ink);font:inherit}
+.out{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:32px;word-break:break-all}
+table{width:100%;border-collapse:collapse;margin-top:16px;font-size:15px}
+td{padding:8px 0;border-bottom:1px solid var(--line)}
+td:last-child{text-align:right;font-weight:600}
+.note{font-size:13px;color:var(--muted);margin-top:12px}
+.empty{color:var(--muted);padding:24px 0}
+.loading{color:var(--muted);padding:24px 0}
+.imgs{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);margin:10px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo">Afrika Idag<span></span></div>
+    <button class="icon-btn" id="reload" aria-label="Uppdatera">Uppdatera</button>
+  </header>
+  <p class="status" id="status" hidden></p>
+
+  <input class="search" id="search" type="search" placeholder="Sök land, t.ex. Togo" aria-label="Sök land">
+  <div class="chips" id="chips" role="list"></div>
+
+  <section class="hero" id="hero"></section>
+
+  <nav class="tabs" role="tablist" id="tabs">
+    <button class="tab" role="tab" data-tab="all">Nyheter</button>
+    <button class="tab" role="tab" data-tab="sport">Sport</button>
+    <button class="tab" role="tab" data-tab="politics">Politik</button>
+    <button class="tab" role="tab" data-tab="weather">Väder</button>
+    <button class="tab" role="tab" data-tab="fx">Valuta</button>
+  </nav>
+
+  <main class="panel" id="panel"></main>
+</div>
+
+<script>
+const SB = "https://jezwvjxvzuetlboltqrm.supabase.co";
+const KEY = "sb_publishable_jnN6ow-iTzslzmA9eGN8yA_fz_jx4OR";
+
+// Svenska landsnamn
+const SV = {DZ:"Algeriet",AO:"Angola",BJ:"Benin",BW:"Botswana",BF:"Burkina Faso",BI:"Burundi",CF:"Centralafrikanska rep.",
+DJ:"Djibouti",EG:"Egypten",GQ:"Ekvatorialguinea",CI:"Elfenbenskusten",ER:"Eritrea",SZ:"Eswatini",ET:"Etiopien",GA:"Gabon",
+GM:"Gambia",GH:"Ghana",GN:"Guinea",GW:"Guinea-Bissau",CM:"Kamerun",CV:"Kap Verde",KE:"Kenya",KM:"Komorerna",
+CG:"Kongo-Brazzaville",CD:"Kongo-Kinshasa",LS:"Lesotho",LR:"Liberia",LY:"Libyen",MG:"Madagaskar",MW:"Malawi",ML:"Mali",
+MA:"Marocko",MR:"Mauretanien",MU:"Mauritius",MZ:"Moçambique",NA:"Namibia",NE:"Niger",NG:"Nigeria",RW:"Rwanda",
+ST:"São Tomé och Príncipe",SN:"Senegal",SC:"Seychellerna",SL:"Sierra Leone",SO:"Somalia",SD:"Sudan",ZA:"Sydafrika",
+SS:"Sydsudan",TZ:"Tanzania",TD:"Tchad",TG:"Togo",TN:"Tunisien",UG:"Uganda",ZM:"Zambia",ZW:"Zimbabwe"};
+const REF = ["SEK","EUR","USD","GBP"];
+
+const flag = iso => iso.replace(/./g, c => String.fromCodePoint(127397 + c.charCodeAt(0)));
+const fmt = (n,d=2) => Number(n).toLocaleString("sv-SE",{maximumFractionDigits:d});
+const decode = s => new DOMParser().parseFromString(s || "", "text/html").documentElement.textContent;
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+function wmo(c){
+  if (c===0) return ["☀️","Soligt"]; if (c<=2) return ["🌤️","Mest sol"]; if (c===3) return ["☁️","Mulet"];
+  if (c<=48) return ["🌫️","Dimma"]; if (c<=67 || (c>=80 && c<=82)) return ["🌧️","Regn"];
+  if (c<=77) return ["🌨️","Snö"]; return ["⛈️","Åska"];
+}
+function ago(iso){
+  const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  if (m < 60) return `för ${Math.max(m,1)} min sedan`;
+  const h = Math.round(m/60); if (h < 24) return `för ${h} tim sedan`;
+  const d = Math.round(h/24); return d === 1 ? "i går" : `för ${d} dagar sedan`;
+}
+const dayName = (date, i) => i===0 ? "Idag" : i===1 ? "Imorgon" :
+  new Date(date+"T12:00:00").toLocaleDateString("sv-SE",{weekday:"short"});
+
+// Hämtar från Supabase och sparar svaret för offline-läge
+let offline = false;
+async function api(path){
+  const key = "c:" + path;
+  try {
+    const r = await fetch(`${SB}/rest/v1/${path}`, { headers: { apikey: KEY } });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const d = await r.json();
+    try { localStorage.setItem(key, JSON.stringify(d)); } catch(e){}
+    return d;
+  } catch (e) {
+    let c = null; try { c = JSON.parse(localStorage.getItem(key)); } catch(_){}
+    if (c) { offline = true; return c; }
+    throw e;
+  }
+}
+
+let state = { iso:"TG", tab:"all", q:"", showImages:true };
+try { Object.assign(state, JSON.parse(localStorage.getItem("afrika-idag-ui") || "{}"), { q:"" }); } catch(e){}
+const save = () => { try { localStorage.setItem("afrika-idag-ui", JSON.stringify({iso:state.iso, tab:state.tab, showImages:state.showImages})); } catch(e){} };
+
+let countries = [], fx = {}, weather = null, articles = [];
+const country = () => countries.find(c => c.iso === state.iso) || countries.find(c => c.iso === "TG") || countries[0];
+const nameOf = c => SV[c.iso] || c.name_fr;
+
+function setStatus(){
+  const s = document.getElementById("status");
+  s.hidden = !offline;
+  s.textContent = "Ingen anslutning. Du ser det som senast sparades.";
+}
+
+function renderChips(){
+  const q = state.q.trim().toLowerCase();
+  const list = countries.filter(c => !q || nameOf(c).toLowerCase().includes(q) || c.capital.toLowerCase().includes(q) || c.name_fr.toLowerCase().includes(q));
+  const box = document.getElementById("chips"); box.replaceChildren();
+  if (!list.length) { box.append(el("span","empty",`Inget land matchar "${state.q}". Prova ett annat namn.`)); return; }
+  for (const c of list) {
+    const b = el("button","chip",`${flag(c.iso)} ${nameOf(c)}`);
+    b.dataset.iso = c.iso; b.setAttribute("role","listitem"); b.setAttribute("aria-pressed", c.iso === state.iso);
+    box.append(b);
+  }
+}
+
+function renderHero(){
+  const c = country(), h = document.getElementById("hero"); h.replaceChildren();
+  h.append(el("div","flag",flag(c.iso)), el("h1",null,nameOf(c)), el("p","sub",`Huvudstad ${c.capital}`));
+  const g = el("div","glance");
+  const w = el("div");
+  if (weather) { const [ic,lab] = wmo(weather.current.code); w.append(el("b",null,`${ic} ${Math.round(weather.current.temp)}°`), el("small",null,`${lab} i ${c.capital}`)); }
+  else w.append(el("b",null,"–"), el("small",null,"Väder saknas"));
+  const f = el("div");
+  if (fx[c.currency]) f.append(el("b",null,fmt(fx[c.currency])), el("small",null,`${c.currency} för 1 USD`));
+  else f.append(el("b",null,"–"), el("small",null,`Kurs för ${c.currency} saknas`));
+  g.append(w,f); h.append(g);
+}
+
+function renderArticles(list, emptyText){
+  const p = document.getElementById("panel");
+  if (!list.length) { p.append(el("p","empty",emptyText)); return; }
+  for (const a of list) {
+    if (!/^https?:\/\//.test(a.url)) continue;
+    const link = el("a","story"); link.href = a.url; link.target = "_blank"; link.rel = "noopener";
+    const t = el("div","txt");
+    t.append(el("h3",null,decode(a.title)));
+    if (a.summary) t.append(el("p",null,decode(a.summary)));
+    const m = el("div","meta"); m.append(el("b",null,decode(a.source_name)), document.createTextNode(ago(a.published_at)));
+    t.append(m); link.append(t);
+    if (state.showImages && a.image_url && /^https?:\/\//.test(a.image_url)) {
+      const img = el("img"); img.src = a.image_url; img.alt = ""; img.loading = "lazy";
+      img.onerror = () => img.remove(); link.append(img);
+    }
+    p.append(link);
+  }
+}
+
+function renderPanel(){
+  const c = country(), p = document.getElementById("panel"); p.replaceChildren();
+  document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", t.dataset.tab === state.tab));
+
+  if (state.tab === "all" || state.tab === "sport" || state.tab === "politics") {
+    const imgs = el("label","imgs"); const cb = el("input"); cb.type = "checkbox"; cb.checked = state.showImages;
+    cb.onchange = () => { state.showImages = cb.checked; save(); renderPanel(); };
+    imgs.append(cb, document.createTextNode("Visa bilder (av för att spara data)")); p.append(imgs);
+    const list = state.tab === "all" ? articles : articles.filter(a => a.category === state.tab);
+    const what = {all:"nyheter", sport:"sportnyheter", politics:"politiska nyheter"}[state.tab];
+    renderArticles(list, `Inga ${what} om ${nameOf(c)} just nu. Nyheter hämtas var 15:e minut, eller välj ett annat land.`);
+  }
+
+  if (state.tab === "weather") {
+    if (!weather) { p.append(el("p","empty",`Väder för ${c.capital} saknas just nu. Det hämtas var 15:e minut.`)); return; }
+    const [ic,lab] = wmo(weather.current.code);
+    const now = el("div","now"); const info = el("div");
+    info.append(el("b",null,`${ic} ${lab}`), el("div","meta",`${c.capital}, ${nameOf(c)}`));
+    now.append(el("span","big",`${Math.round(weather.current.temp)}°`), info); p.append(now);
+    const days = el("div","days");
+    weather.daily.forEach((d,i) => {
+      const box = el("div","day");
+      box.append(el("small",null,dayName(d.date,i)), el("div","ic",wmo(d.code)[0]), el("b",null,`${Math.round(d.max)}°`), el("small",null,`${Math.round(d.min)}°`));
+      days.append(box);
+    });
+    p.append(days, el("p","note",`Uppdaterat ${ago(weather.fetched_at)}. Källa: Open-Meteo.`));
+  }
+
+  if (state.tab === "fx") {
+    const local = fx[c.currency];
+    if (!local) { p.append(el("p","empty",`Kurs för ${c.currency} saknas just nu.`)); return; }
+    const box = el("div","conv");
+    const l1 = el("label",null,`Belopp i ${c.currency}`); l1.htmlFor = "amt";
+    const r1 = el("div","row"); const inp = el("input"); inp.id = "amt"; inp.type = "number"; inp.inputMode = "decimal"; inp.value = "10000"; inp.min = "0"; r1.append(inp);
+    const l2 = el("label",null,"Växla till"); l2.htmlFor = "to";
+    const r2 = el("div","row"); const sel = el("select"); sel.id = "to";
+    for (const k of REF) { const o = el("option",null,k); if (k === "SEK") o.selected = true; sel.append(o); } r2.append(sel);
+    const out = el("div","out");
+    const calc = () => { const v = parseFloat(inp.value) || 0; out.textContent = `${fmt(v / local * (fx[sel.value] || 1))} ${sel.value}`; };
+    inp.oninput = calc; sel.onchange = calc; calc();
+    box.append(l1,r1,l2,r2,out); p.append(box);
+    const tb = el("table");
+    for (const k of REF) if (fx[k]) { const tr = el("tr"); tr.append(el("td",null,`1 ${k}`), el("td",null,`${fmt(local / fx[k])} ${c.currency}`)); tb.append(tr); }
+    p.append(tb, el("p","note","Kurserna uppdateras automatiskt varje dag."));
+  }
+}
+
+async function loadCountry(){
+  const c = country();
+  const panel = document.getElementById("panel");
+  panel.replaceChildren(el("p","loading","Hämtar…"));
+  const [w, a] = await Promise.allSettled([
+    api(`weather?select=current,daily,fetched_at&country_iso=eq.${c.iso}`),
+    api(`articles?select=title,summary,url,image_url,source_name,published_at,category&country_iso=eq.${c.iso}&order=published_at.desc&limit=40`)
+  ]);
+  weather = w.status === "fulfilled" ? (w.value[0] || null) : null;
+  articles = a.status === "fulfilled" ? a.value : [];
+  renderHero(); renderPanel(); setStatus();
+}
+
+async function init(){
+  offline = false;
+  document.getElementById("panel").replaceChildren(el("p","loading","Hämtar…"));
+  try {
+    const [cs, rates] = await Promise.all([
+      api("countries?select=iso,name_fr,capital,currency"),
+      api("fx_rates?select=code,per_usd").catch(() => [])
+    ]);
+    countries = cs.sort((a,b) => nameOf(a).localeCompare(nameOf(b), "sv"));
+    fx = Object.fromEntries(rates.map(r => [r.code, Number(r.per_usd)]));
+    renderChips();
+    await loadCountry();
+  } catch (e) {
+    document.getElementById("panel").replaceChildren(el("p","empty","Kunde inte hämta data. Kontrollera internetanslutningen och tryck Uppdatera."));
+  }
+}
+
+document.getElementById("chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  state.iso = b.dataset.iso; save(); renderChips(); loadCountry();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+document.getElementById("tabs").addEventListener("click", e => {
+  const b = e.target.closest(".tab"); if (!b) return; state.tab = b.dataset.tab; save(); renderPanel();
+});
+document.getElementById("search").addEventListener("input", e => { state.q = e.target.value; renderChips(); });
+document.getElementById("reload").addEventListener("click", init);
+init();
+</script>
+</body>
+</html>
